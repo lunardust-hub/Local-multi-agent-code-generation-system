@@ -1,4 +1,4 @@
-# Project Charter v0.2: Qwen9B Local Coding Agent Studio
+# Project Charter : Qwen9B Local Coding Agent Studio
 
 ## Project Name
 Qwen9B Local Coding Agent Studio
@@ -52,11 +52,10 @@ Qwen3.5:9B serves as the local inference backbone, called via Ollama + the OpenA
 
 - GitHub repository.
 - **Architecture Diagram (架构图)**.
-- Minimal runnable Coding Agent Demo.
+- Advanced runnable Coding Agent Demo.
 - Sample execution trace logs.
 - Evaluation task set.
 - Technical documentation.
-- Demo video.
 
 ## Key Terminology Glossary
 
