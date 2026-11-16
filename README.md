@@ -134,7 +134,7 @@ python -m venv .venv
 
 ### 2. Install Dependencies
 Install the core libraries required for LangGraph orchestration and Ollama integration:
-# Upgrade pip to the latest version
+### Upgrade pip to the latest version
 python -m pip install --upgrade pip
 ```powershell
  Install project dependencies
