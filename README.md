@@ -77,36 +77,36 @@ Qwen3.5:9B serves as the local inference backbone, called via Ollama + the OpenA
 ## System Architecture
 ```mermaid
 flowchart TD
-    User(["User (Local Project & Requirements)"]) --> |1. 输入需求 | Gateway
-    Gateway["API Gateway / HITL"] --> |2. 任务分发| Supervisor
-    
+    User[["User (Local Project & Requirements)"]] --> |1. Input Requirements| Gateway
+    Gateway["API Gateway / HITL"] --> |2. Task Dispatch| Supervisor
+
     subgraph Core MAS
-        Supervisor("Supervisor (Brain & Router)") --> |3. 探索项目| Explorer
-        Supervisor --> |4. 编码 | Coder
-        Supervisor --> |5. 语法校验| Tester
-        Supervisor --> |6. 风险审查| Reviewer
-        Supervisor --> |7. 最终确认| Reviewer
+        Supervisor("Supervisor (Brain & Router)") --> |3. Explore Project| Explorer
+        Supervisor --> |4. Coding| Coder
+        Supervisor --> |5. Syntax Verification| Tester
+        Supervisor --> |6. Risk Review| Reviewer
+        Supervisor --> |7. Final Confirmation| Reviewer
     end
 
     subgraph AI Backbone
-        Explorer <--> |读取上下文| Ollama["Ollama + Qwen3.5:9b"]
-        Coder <--> |生成代码| Ollama
-        Tester <--> |逻辑推理| Ollama
-        Reviewer <--> |代码审计| Ollama
-        
-        Ollama <--> |8. 记忆同步| MemoryDB[("VectorDB / Short-term Memory")]
-        MemoryDB <--> |9. 读取历史| Explorer
+        Explorer <--> |Read Context| Ollama["ollama + Qwen3.5:9b"]
+        Coder <--> |Generate Code| Ollama
+        Tester <--> |Logical Reasoning| Ollama
+        Reviewer <--> |Code Audit| Ollama
+
+        Ollama <--> |8. Memory Sync| MemoryDB[("VectorDB / Short-term Memory")]
+        MemoryDB <--> |9. Read History| Explorer
     end
 
     subgraph Execution Layer
-        Supervisor --> |10. 流程控制| LangGraph["LangGraph Orchestrator"]
-        Coder --> |生成 Diff| DiffOutput["diff_output"]
-        Tester --> |执行测试| RunCommand["Sandbox Environment"]
-        Tester --> |11. 运行命令| RunCommand
-        LangGraph --> |12. 记录日志| TraceLog["Execution Trace Log"]
+        Supervisor --> |10. Flow Control| LangGraph["LangGraph Orchestrator"]
+        Coder --> |Generate Diff| DiffOutput["diff_output"]
+        Tester --> |Execute Tests| RunCommand["Sandbox Environment"]
+        Tester --> |11. Run Command| RunCommand
+        LangGraph --> |12. Log Traces| TraceLog["Execution Trace Log"]
     end
 
-    RunCommand --> |安全隔离| DiffOutput
-    DiffOutput --> |13. 变更补丁| Reviewer
-    Reviewer --> |14. 推送审核| Gateway
+    RunCommand --> |Safe Isolation| DiffOutput
+    DiffOutput --> |13. Change Patch| Reviewer
+    Reviewer --> |14. Submit for Review| Gateway
 ```
