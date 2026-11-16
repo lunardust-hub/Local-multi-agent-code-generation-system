@@ -106,7 +106,37 @@ flowchart TD
         LangGraph --> |12. Log Traces| TraceLog["Execution Trace Log"]
     end
 
+## Getting Started
+
+Follow these steps to set up the local development environment. This project is optimized for a local Ollama setup on Windows.
+
+### Prerequisites
+- [Python 3.10+](https://www.python.org/downloads/) installed on your system
+- [Ollama](https://ollama.com/) running locally with the `qwen3.5:9b` model
+- Windows PowerShell
+
+### 1. Setup the Local Environment
+It is highly recommended to use a virtual environment to avoid dependency conflicts. Open your PowerShell in the root directory of this project and run the following commands:
+
+```powershell
+# Create a virtual environment
+python -m venv .venv
+
+# Activate the virtual environment
+.\.venv\Scripts\activate
+
     RunCommand --> |Safe Isolation| DiffOutput
     DiffOutput --> |13. Change Patch| Reviewer
     Reviewer --> |14. Submit for Review| Gateway
 ```
+
+### 2. Install Dependencies
+Install the core libraries required for LangGraph orchestration and Ollama integration:
+# Upgrade pip to the latest version
+python -m pip install --upgrade pip
+```powershell
+ Install project dependencies
+pip install langgraph langchain-ollama openai scikit-learn
+```
+
+
