@@ -77,36 +77,36 @@ Qwen3.5:9B serves as the local inference backbone, called via Ollama + the OpenA
 ## System Architecture
 ```mermaid
 flowchart TD
-    User(["👤 User (Local Project & Requirements)"]) --> |1. 输入需求 / 确认补丁| Gateway
-    Gateway["🚪 API Gateway / HITL 人工介入控制层"] --> |2. 任务分发| Supervisor
+    User(["User (Local Project & Requirements)"]) --> |1. 输入需求 | Gateway
+    Gateway["API Gateway / HITL"] --> |2. 任务分发| Supervisor
     
-    subgraph "🤖 Core MAS (Multi-Agent System)"
-        Supervisor(Supervisor["🧠 大脑 & 路由"]) --> |3. 探索项目结构| Explorer
-        Supervisor --> |4. 编码 / 修改| Coder
-        Supervisor --> |5. 语法与行为校验| Tester
-        Supervisor --> |6. 质量与风险审查| Reviewer
-        Supervisor --> |7. 最终交付确认| Reviewer
+    subgraph Core MAS
+        Supervisor("Supervisor (Brain & Router)") --> |3. 探索项目| Explorer
+        Supervisor --> |4. 编码 | Coder
+        Supervisor --> |5. 语法校验| Tester
+        Supervisor --> |6. 风险审查| Reviewer
+        Supervisor --> |7. 最终确认| Reviewer
     end
 
-    subgraph "🧠 AI & Memory Backbone (Qwen3.5:9b)"
-        Explorer <--> |读取上下文| Ollama["🦙 Ollama + Qwen3.5:9b\n(OpenAI-Compat API)"]
-        Coder <--> |代码生成| Ollama
+    subgraph AI Backbone
+        Explorer <--> |读取上下文| Ollama["Ollama + Qwen3.5:9b"]
+        Coder <--> |生成代码| Ollama
         Tester <--> |逻辑推理| Ollama
         Reviewer <--> |代码审计| Ollama
         
-        Ollama <--> |8. 状态与记忆同步| MemoryDB[("🗃️ VectorDB / Short-term Memory\n向量数据库 & 短期记忆")]
-        MemoryDB <--> |9. 读取项目历史 & 文档| Explorer
+        Ollama <--> |8. 记忆同步| MemoryDB[("VectorDB / Short-term Memory")]
+        MemoryDB <--> |9. 读取历史| Explorer
     end
 
-    subgraph "⚙️ Execution & Orchestration (LangGraph)"
-        Supervisor --> |10. 任务流 / 异常捕获| LangGraph["🔄 LangGraph Orchestrator\n(状态持久化 Checkpointing)"]
-        Coder --> |生成 Diff| DiffOutput[diff_output]
-        Tester --> |单元测试| RunCommand["🛡️ Sandbox Environment\n(隔离沙箱环境)"]
+    subgraph Execution Layer
+        Supervisor --> |10. 流程控制| LangGraph["LangGraph Orchestrator"]
+        Coder --> |生成 Diff| DiffOutput["diff_output"]
+        Tester --> |执行测试| RunCommand["Sandbox Environment"]
         Tester --> |11. 运行命令| RunCommand
-        LangGraph --> |12. 记录执行轨迹| TraceLog["📜 Execution Trace Log\n(完整决策与工具调用日志)"]
+        LangGraph --> |12. 记录日志| TraceLog["Execution Trace Log"]
     end
 
-    RunCommand --> |安全隔离, 不破坏主机| DiffOutput
-    DiffOutput --> |13. 生成变更补丁| Reviewer
-    Reviewer --> |14. 推送至人工审核| Gateway
+    RunCommand --> |安全隔离| DiffOutput
+    DiffOutput --> |13. 变更补丁| Reviewer
+    Reviewer --> |14. 推送审核| Gateway
 ```
