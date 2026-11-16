@@ -98,6 +98,7 @@ flowchart TD
         MemoryDB <--> |9. Read History| Explorer
     end
 
+
     subgraph Execution Layer
         Supervisor --> |10. Flow Control| LangGraph["LangGraph Orchestrator"]
         Coder --> |Generate Diff| DiffOutput["diff_output"]
@@ -105,6 +106,7 @@ flowchart TD
         Tester --> |11. Run Command| RunCommand
         LangGraph --> |12. Log Traces| TraceLog["Execution Trace Log"]
     end
+```
 
 ## Getting Started
 
